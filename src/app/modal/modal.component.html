@@ -1,0 +1,143 @@
+<div *ngIf="this.options[0].state === 'inclusao' || this.options[0].state === 'edit' ">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <h1 mat-dialog-title>Diálogo</h1>
+        <div mat-dialog-content>
+            <div class="row">
+                <!-- titulo -->
+                <div class="col-4 py-2">
+                    <input type="hidden" id="id" formControlName="_id" />
+                    <label for="titulo">Titulo:</label>
+                    <input id="titulo" class="form-control" formControlName="titulo" />
+                    <div *ngIf="form.get('titulo')?.invalid && form.get('titulo')?.touched">
+                        <small *ngIf="form.get('titulo')?.errors?.['required']">Título obrigatório.</small>
+                        <small *ngIf="form.get('titulo')?.errors?.['minlength']">O titulo deve ter pelo menos 3 caracteres.</small>
+                    </div>
+                </div>
+                <!--Descricao-->
+                <div class="col-4 py-2">
+                    <label for="descricao">Descricao:</label>
+                    <input id="descricao" class="form-control" formControlName="descricao" />
+                    <div *ngIf="form.get('descricao')?.invalid && form.get('descricao')?.touched">
+                        <small *ngIf="form.get('descricao')?.errors?.['required']">Descrição obrigatório.</small>
+                        <small *ngIf="form.get('descricao')?.errors?.['minlength']">A Descrição deve ter pelo menos 3 caracteres.</small>
+                    </div>
+                </div>
+                <!--Categoria-->
+                <div class="col-4 py-2">
+                    <label for="categoria">Categoria:</label>
+                    <input id="categoria" class="form-control" formControlName="categoria" />
+                    <div *ngIf="form.get('categoria')?.invalid && form.get('categoria')?.touched">
+                        <small *ngIf="form.get('categoria')?.errors?.['required']">Categoria obrigatório.</small>
+                        <small *ngIf="form.get('categoria')?.errors?.['minlength']">A Categoria deve ter pelo menos 3 caracteres.</small>
+                    </div>
+                </div>
+                <!--tipo-->
+                <div class="col-4 py-2">
+                    <label for="tipo">tipo:</label>
+                    <input id="tipo" class="form-control" formControlName="tipo" />
+                    <div *ngIf="form.get('tipo')?.invalid && form.get('tipo')?.touched">
+                        <small *ngIf="form.get('tipo')?.errors?.['required']">Tipo obrigatório.</small>
+                        <small *ngIf="form.get('tipo')?.errors?.['minlength']">O Tipo deve ter pelo menos 3 caracteres.</small>
+                    </div>
+                </div>
+                <!--valor-->
+                <div class="col-8 py-2">
+                    <label for="valor">valor:</label>
+                    <input id="valor" class="form-control" formControlName="valor" />
+                </div>
+                <!--detalhe-->
+                <div class="col-12 py-2">
+                    <label for="detalhe">detalhe:</label>
+                    <textarea id="detalhe" class="form-control" formControlName="detalhe" cols="20" rows="11"></textarea>
+                    <div *ngIf="form.get('detalhe')?.invalid && form.get('detalhe')?.touched">
+                        <small *ngIf="form.get('detalhe')?.errors?.['required']">Detalhe obrigatório.</small>
+                        <small *ngIf="form.get('detalhe')?.errors?.['minlength']">O Detalhe deve ter pelo menos 3 caracteres.</small>
+                    </div>
+                </div>
+                <!--imagem-->
+                <div class="col-12 py-2">
+                    <label for="arquivo">imagem:</label>
+                    <input id="arquivo" 
+                           class="form-control w-100" 
+                           type="file" 
+                           formControlName="arquivo2" 
+                           (change)="handleFileInput($any($event))" 
+                           accept=".jpg,.jpeg,.png,.pdf,.svg,.doc,.docx,.xls,.xlsx,.ppt,.pptx" />
+                </div>
+            </div>
+        </div>
+        <div mat-dialog-actions>
+            <button type="submit" class="btn btn-primary" [disabled]="form.invalid">{{ this.options[0].state === 'inclusao' ? 'Incluir' : 'Alterar' }}</button>
+            <button class="btn btn-outline" mat-button mat-dialog-close>Fechar</button>
+        </div>
+    </form>
+</div>
+<div *ngIf="this.options[0].state === 'view'">
+    <h1 mat-dialog-title>Diálogo</h1>
+    <div mat-dialog-content>
+        <div class="row py-3">
+            <div class="col-4 py-3">
+                <label for=""><strong>Titulo</strong></label>
+                <div [innerHTML]="this.options[0].titulo"></div>
+            </div>
+            <div class="col-4 py-3">
+                <label for=""><strong>Descrição</strong></label>
+                <div [innerHTML]="this.options[0].descricao"></div>
+            </div>
+            <div class="col-4 py-3">
+                <label for=""><strong>Categoria</strong></label>
+                <div [innerHTML]="this.options[0].categoria"></div>
+            </div>
+            <div class="col-4 py-3">
+                <label for=""><strong>tipo</strong></label>
+                <div [innerHTML]="this.options[0].tipo"></div>
+            </div>
+            <div class="col-4 py-3">
+                <label for=""><strong>Valor</strong></label>
+                <div [innerHTML]="this.options[0].valor"></div>
+            </div>
+            <div class="col-12 py-3">
+                <label for=""><strong>Detalhe</strong></label>
+                <div [innerHTML]="this.options[0].detalhe"></div>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button class="btn btn-outline" mat-button mat-dialog-close>Fechar</button>
+    </div>
+</div>
+<div *ngIf="this.options[0].state === 'viewImage'">
+
+    <h1 mat-dialog-title>Anexo</h1>
+
+    <div mat-dialog-content class="_boxImage d-flex w-100 h-100 " alt="xx">
+
+       <div *ngIf="base64Image.indexOf('/pdf') != -1" class="d-flex w-100 h-100 ">
+
+            <iframe width="1120"
+                    height="600"
+                    frameborder="0"
+                    scrolling="yes"
+                    marginheight="0"
+                    marginwidth="0" 
+                    title="x" 
+                    [src]="document(base64Image) | safe" 
+                    ></iframe>
+
+       </div>
+
+       <!--carrega imagem -->
+       <div *ngIf="base64Image.indexOf('/pdf') == -1">
+           <div class="image-container">
+               <img [src]="base64Image" 
+                    [style.max-width.%]="100" [style.max-height.%]="100" title="" alt="" />
+           </div>
+       </div>
+
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-button mat-dialog-close>Fechar</button>
+    </div>
+
+</div>
