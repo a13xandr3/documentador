@@ -1,12 +1,12 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DomSanitizer } from '@angular/platform-browser';
 
 import { Model } from '../app.model';
 import { AppService } from '../app.service';
 @Component({
   selector: 'app-modal',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
 })
@@ -15,22 +15,18 @@ export class ModalComponent implements OnInit {
   public options: any = [];
   public form!: FormGroup;
   public aspectRatio: number = 1;
-  base64Image: string = '';
+  public base64Image: string;
   
   constructor(
     private service: AppService,
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<ModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Model,
-    private sanitizer: DomSanitizer,
-    private cdref: ChangeDetectorRef
+    @Inject(MAT_DIALOG_DATA) public data: Model
   ) {
     this.options = this.data;
+    //this.base64Image = '';
     this.base64Image = this.options[0].arquivo;
     if (this.options[0].state === 'inclusao' || this.options[0].state === 'edit' ) {
-      
-      //console.log(this.options[0]);
-
       this.form = this.fb.group({
         _id: [this.options[0]._id],
         titulo: [this.options[0].titulo, [Validators.required, Validators.minLength(3)]],
@@ -46,7 +42,6 @@ export class ModalComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.cdref.detectChanges();
     if ( this.options[0].state === 'viewImage') {
       this.loadImage(this.base64Image);
     }
@@ -60,7 +55,7 @@ export class ModalComponent implements OnInit {
   //evento ao efetuar gravação
   onSubmit() {
     if (this.form.valid) {
-      //console.log(this.form.value);  // Exibe os dados do formulário se for válido
+      // Exibe os dados do formulário se for válido
       this.form.controls['arquivo'].patchValue(this.arquivoBase64);
       if ( this.options[0].state === 'inclusao') {
         this.addItem(this.form.value);
@@ -81,7 +76,6 @@ export class ModalComponent implements OnInit {
     let _body = { titulo: body.titulo, descricao: body.descricao, categoria: body.categoria, tipo: body.tipo, detalhe: body.detalhe, valor: body.valor, arquivo: body.arquivo };
     this.service.postItem(_body).subscribe({
       next: (response: any) => {
-        console.log(response);
         this.dialogRef.close();
         this.service.notifyDataUpdated();
       },
@@ -109,7 +103,6 @@ export class ModalComponent implements OnInit {
       const width = img.width;
       const height = img.height;
       this.aspectRatio = width / height;
-      //console.log(`Aspect Ratio: ${this.aspectRatio}`);
     };
   }
 
@@ -129,86 +122,4 @@ export class ModalComponent implements OnInit {
     });
   }
 
-public document(b64: any): any {
-  const blob = this.convertBase64ToBlob(b64);
-  return URL.createObjectURL(blob);
-}
-
-  /**
-  * Convert BASE64 to BLOB
-  * @param base64Image Pass Base64 image data to convert into the BLOB
-  */
-  public convertBase64ToBlob(base64Image: string) {
-    // Split into two parts
-    const parts = base64Image.split(';base64,');
-    // Hold the content type
-    const imageType = parts[0].split(':')[1];
-    // Decode Base64 string
-    const decodedData = window.atob(parts[1]);
-    // Create UNIT8ARRAY of size same as row data length
-    const uInt8Array = new Uint8Array(decodedData.length);
-    // Insert all character code into uInt8Array
-
-    for (let i = 0; i < decodedData.length; ++i) {
-      uInt8Array[i] = decodedData.charCodeAt(i);
-    }
-    // Return BLOB image after conversion
-    const x = new Blob([uInt8Array], { type: imageType });
-    
-    return x
-  }
-
-/*
-  public base64toBlob(base64Data: any, contentType: any) {
-    debugger
-    contentType = contentType || '';
-    var sliceSize = 1024;
-    var byteCharacters = atob(base64Data);
-    var bytesLength = byteCharacters.length;
-    var slicesCount = Math.ceil(bytesLength / sliceSize);
-    var byteArrays = new Array(slicesCount);
-
-    for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
-        var begin = sliceIndex * sliceSize;
-        var end = Math.min(begin + sliceSize, bytesLength);
-
-        var bytes = new Array(end - begin);
-        for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
-            bytes[i] = byteCharacters[offset].charCodeAt(0);
-        }
-        byteArrays[sliceIndex] = new Uint8Array(bytes);
-    }
-    return new Blob(byteArrays, { type: contentType });
-}
-  public xpto(b64: any) {
-
-    //const byteCharacters = atob(b64);
-
-    //let blob = new Blob([pdfBuffer], {type: 'application/pdf'});
-    //let blobURL = URL.createObjectURL(blob);
-    //window.open(blobURL);
-  }
-*/
-  /*
-  public _base64ToFile(base64: any): void {
-    const imageName = 'file.pdf';
-    const imageBlob = this.dataURItoBlob(base64);
-    const imageFile = new File([imageBlob], imageName, { type: 'image/png' });
-  }
-  public dataURItoBlob(dataURI: any): any {
-    const byteString = window.atob(dataURI);
-    const arrayBuffer = new ArrayBuffer(byteString.length);
-    const int8Array = new Uint8Array(arrayBuffer);
-    for (let i = 0; i < byteString.length; i++) {
-      int8Array[i] = byteString.charCodeAt(i);
-    }
-    const blob = new Blob([int8Array], { type: 'image/pdf' });    
-    return blob;
-  }
-  public base64ToFile(b64: any) {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(b64);
-  }
-
-  */
-  
 }

@@ -21,7 +21,6 @@ export class HomeComponent implements OnInit {
     public dialog: MatDialog,
     private service: AppService) {
       this.service.dataUpdated$.subscribe((updated) => {
-        console.log(updated);
         if (updated) {
           this.dataSource = [];
           this.getItems();
@@ -41,7 +40,6 @@ export class HomeComponent implements OnInit {
   public getItems(): void {
     this.service.getItems().subscribe({
       next: (response: any[]) => {
-        console.log('home', response);
         this.dataSource = response;
       },
       error: (err: any) => {
@@ -50,13 +48,8 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  // Abre o modal de imagem
-  public openModalImage(item: any): void {
-    //this.modalImage.showDialogImage(item);
-  }
-  
   public openModalForm(item: Model, state: string): void {
-    let xp = [];
+    let itemArray = [];
     const x: Model = {
       _id: item._id,
       titulo: item.titulo,
@@ -68,16 +61,12 @@ export class HomeComponent implements OnInit {
       arquivo: item.arquivo,
       state: state
     };
-    xp.push(x);
+    itemArray.push(x);
     let dialogRef = this.dialog.open(ModalComponent, {
       height: this.height,
       width: this.width,
-      data: xp
+      data: itemArray
     });
-  }
-
-  public openDialog(): void {
-
   }
 
   trackByItemId(index: number, item: any): number {
@@ -87,7 +76,7 @@ export class HomeComponent implements OnInit {
   // Método para deletar um item
   public deleteItem(id: string): void {
     this.service.deleteItem(id).subscribe({
-      next: () => this.getItems(), // Atualiza a lista após exclusão
+      next: () => this.getItems(),
       error: (err) => console.error('Erro ao deletar item:', err)
     });
   }

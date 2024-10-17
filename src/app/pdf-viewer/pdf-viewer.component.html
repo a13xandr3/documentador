@@ -1,3 +1,8 @@
-<div>
-    <canvas #pdfCanvas></canvas> <!-- O PDF será renderizado aqui -->
-</div>
+<iframe width="1120"
+    height="600"
+    frameborder="0"
+    scrolling="yes"
+    marginheight="0"
+    marginwidth="0" 
+    title="x" 
+    [src]="document(base64Image) | safe"></iframe>
