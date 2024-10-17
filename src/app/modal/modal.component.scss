@@ -1,5 +1,17 @@
+.mat-dialog-title {
+    height: 10vh !important;
+    border-bottom: 1px solid #999;
+}
+
 .mat-mdc-dialog-content {
-    max-height: 83vh !important;
+    max-height: 75vh !important;
+    height: 75vh !important;
+    border-bottom: 1px solid #999;
+}
+
+mat-dialog-actions {
+    height: 10vh !important;
+    //border-bottom: 1px solid #999;
 }
 
 .boxImage {
@@ -7,3 +19,4 @@
     overflow: auto !important; 
     display: flex !important;
 }
+
