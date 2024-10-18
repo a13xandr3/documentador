@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { PDFDocumentProxy, getDocument } from 'pdfjs-dist';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -40,9 +38,4 @@ export class AppService {
     this.dataUpdatedSource.next(true);
   }
 
-  // Método para carregar o PDF
-  async loadPdf(url: string): Promise<PDFDocumentProxy> {
-    const loadingTask = getDocument(url);
-    return await loadingTask.promise;
-  }
 }

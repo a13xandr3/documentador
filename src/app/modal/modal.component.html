@@ -7,7 +7,7 @@
                 <div class="col-4 py-2">
                     <input type="hidden" id="id" formControlName="_id" />
                     <label for="titulo">Titulo:</label>
-                    <input id="titulo" class="form-control" formControlName="titulo" />
+                    <input id="titulo" class="form-control" formControlName="titulo"   />
                     <div *ngIf="form.get('titulo')?.invalid && form.get('titulo')?.touched">
                         <small *ngIf="form.get('titulo')?.errors?.['required']">Título obrigatório.</small>
                         <small *ngIf="form.get('titulo')?.errors?.['minlength']">O titulo deve ter pelo menos 3 caracteres.</small>

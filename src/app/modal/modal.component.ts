@@ -7,13 +7,11 @@ import { AppService } from '../app.service';
 import { Environment } from '../environment';
 @Component({
   selector: 'app-modal',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent implements OnInit {
   public modalConfig = Environment;
-
   public arquivoBase64: string | null = null;
   public options: any = [];
   public form!: FormGroup;
@@ -23,7 +21,6 @@ export class ModalComponent implements OnInit {
   public img = this.extensions.filter(m => m.type === 'img');
   public doc = this.extensions.filter(m => m.type === 'doc');
   public base64Image: string;
-
   constructor(
     private service: AppService,
     private fb: FormBuilder,
@@ -46,7 +43,6 @@ export class ModalComponent implements OnInit {
       });
     }
   }
-  
   ngOnInit() {
     console.log('extensions==>', this.ext);
     console.log('imagens', this.img);
@@ -55,12 +51,10 @@ export class ModalComponent implements OnInit {
       this.loadImage(this.base64Image);
     }
   }
-
   onNoClick(): void {
     this.dialogRef.close();
     this.service.notifyDataUpdated();
   }
-
   //evento ao efetuar gravação
   onSubmit() {
     if (this.form.valid) {
@@ -79,7 +73,6 @@ export class ModalComponent implements OnInit {
       console.log('Formulário inválido');
     }
   }
-
   //Adiciona item ao DB
   private addItem(body: Model): void {
     let _body = { titulo: body.titulo, descricao: body.descricao, categoria: body.categoria, tipo: body.tipo, detalhe: body.detalhe, valor: body.valor, arquivo: body.arquivo };
@@ -91,7 +84,6 @@ export class ModalComponent implements OnInit {
       error: (err) => console.error(err)
     });
   }
-
   //Modifica item no DB
   private ModifyItem(body: Model): void {
     let _body = {titulo: body.titulo, descricao: body.descricao, categoria: body.categoria, tipo: body.tipo, detalhe: body.detalhe, valor: body.valor, arquivo: body.arquivo };
@@ -114,7 +106,6 @@ export class ModalComponent implements OnInit {
       this.aspectRatio = width / height;
     };
   }
-
   //ao selecionar o arquivo no formulário converte em base64
   public async handleFileInput(event: Event): Promise<void> {
     const input = event.target as HTMLInputElement;
