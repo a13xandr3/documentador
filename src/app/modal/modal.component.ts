@@ -18,13 +18,10 @@ export class ModalComponent implements OnInit {
   public options: any = [];
   public form!: FormGroup;
   public aspectRatio: number = 1;
-
   public extensions = this.modalConfig.Extensions;
-
   public ext = this.extensions.map(m => m.ext);
   public img = this.extensions.filter(m => m.type === 'img');
   public doc = this.extensions.filter(m => m.type === 'doc');
-  
   public base64Image: string;
 
   constructor(
@@ -34,7 +31,6 @@ export class ModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Model
   ) {
     this.options = this.data;
-    //this.base64Image = '';
     this.base64Image = this.options[0].arquivo;
     if (this.options[0].state === 'inclusao' || this.options[0].state === 'edit' ) {
       this.form = this.fb.group({
@@ -54,6 +50,7 @@ export class ModalComponent implements OnInit {
   ngOnInit() {
     console.log('extensions==>', this.ext);
     console.log('imagens', this.img);
+    console.log('doc==>', this.doc);
     if ( this.options[0].state === 'viewImage') {
       this.loadImage(this.base64Image);
     }

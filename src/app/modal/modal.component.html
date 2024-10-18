@@ -111,26 +111,11 @@
 <div *ngIf="this.options[0].state === 'viewImage'">
     <h1 mat-dialog-title class="mat-dialog-title">Detalhe Imagem</h1>
     <div mat-dialog-content class="_boxImage d-flex w-100 h-100 " alt="xx">
-       
-        <!--
-        <div *ngIf="base64Image.indexOf('/pdf') != -1" class="d-flex w-100 h-100 ">
-            <app-pdf-viewer [base64Image]="this.base64Image"></app-pdf-viewer>
-        </div>
-
-        <div *ngIf="base64Image.indexOf('/html') != -1" class="d-flex w-100 h-100 ">
-            <app-pdf-viewer [base64Image]="this.base64Image"></app-pdf-viewer>
-        </div>
-        -->
-
         <div *ngFor="let i of doc">
-            <div *ngIf="base64Image.indexOf(i.mimetype) != -1">
+            <div *ngIf="base64Image.indexOf(i.mimetype) != -1" class="d-flex w-100 h-100">
                 <app-pdf-viewer [base64Image]="this.base64Image"></app-pdf-viewer>
             </div>
         </div>
-
-       <!--carrega imagem -->
-       <!--<div *ngIf="base64Image.indexOf('/pdf') == -1 ">-->
-
         <div *ngFor="let i of img">
             <div *ngIf="base64Image.indexOf(i.mimetype) != -1">
                 <div class="image-container">
@@ -139,7 +124,6 @@
                 </div>
             </div>
        </div>
-
     </div>
     <mat-dialog-actions>
         <button mat-button mat-dialog-close>Fechar</button>
