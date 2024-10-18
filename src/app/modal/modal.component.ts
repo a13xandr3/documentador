@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { Model } from '../app.model';
 import { AppService } from '../app.service';
+import { Environment } from '../environment';
 @Component({
   selector: 'app-modal',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -11,12 +12,21 @@ import { AppService } from '../app.service';
   styleUrls: ['./modal.component.scss']
 })
 export class ModalComponent implements OnInit {
+  public modalConfig = Environment;
+
   public arquivoBase64: string | null = null;
   public options: any = [];
   public form!: FormGroup;
   public aspectRatio: number = 1;
-  public base64Image: string;
+
+  public extensions = this.modalConfig.Extensions;
+
+  public ext = this.extensions.map(m => m.ext);
+  public img = this.extensions.filter(m => m.type === 'img');
+  public doc = this.extensions.filter(m => m.type === 'doc');
   
+  public base64Image: string;
+
   constructor(
     private service: AppService,
     private fb: FormBuilder,
@@ -42,6 +52,8 @@ export class ModalComponent implements OnInit {
   }
   
   ngOnInit() {
+    console.log('extensions==>', this.ext);
+    console.log('imagens', this.img);
     if ( this.options[0].state === 'viewImage') {
       this.loadImage(this.base64Image);
     }

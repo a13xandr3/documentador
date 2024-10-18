@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
   
   public width = this.modalConfig.Modal.width;
   public height = this.modalConfig.Modal.height;
+  public extensions = this.modalConfig.Extensions;
 
   constructor(
     public dialog: MatDialog,
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.extensions);
       this.getItems();
   }
 
@@ -84,6 +86,7 @@ export class HomeComponent implements OnInit {
   public showIcoView(item: any): any {
     let _item = item.arquivo;
     let retorno;
+   
     if ( _item != null ) {
       if ( _item.indexOf('/jpg', 0) != -1 ) {
         retorno = '../../assets/icons/image.svg';

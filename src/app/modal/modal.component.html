@@ -62,7 +62,7 @@
                            type="file" 
                            formControlName="arquivo2" 
                            (change)="handleFileInput($any($event))" 
-                           accept=".jpg,.jpeg,.png,.pdf,.svg,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.htm,.html,.mov,.mp4" />
+                           [accept]="ext" />
                 </div>
             </div>
         </mat-dialog-content>
@@ -112,21 +112,34 @@
     <h1 mat-dialog-title class="mat-dialog-title">Detalhe Imagem</h1>
     <div mat-dialog-content class="_boxImage d-flex w-100 h-100 " alt="xx">
        
+        <!--
         <div *ngIf="base64Image.indexOf('/pdf') != -1" class="d-flex w-100 h-100 ">
             <app-pdf-viewer [base64Image]="this.base64Image"></app-pdf-viewer>
-       </div>
+        </div>
 
-       <div *ngIf="base64Image.indexOf('/html') != -1" class="d-flex w-100 h-100 ">
+        <div *ngIf="base64Image.indexOf('/html') != -1" class="d-flex w-100 h-100 ">
             <app-pdf-viewer [base64Image]="this.base64Image"></app-pdf-viewer>
-       </div>
+        </div>
+        -->
+
+        <div *ngFor="let i of doc">
+            <div *ngIf="base64Image.indexOf(i.mimetype) != -1">
+                <app-pdf-viewer [base64Image]="this.base64Image"></app-pdf-viewer>
+            </div>
+        </div>
 
        <!--carrega imagem -->
-       <div *ngIf="base64Image.indexOf('/pdf') == -1">
-           <div class="image-container">
-               <img [src]="base64Image" 
-                    [style.max-width.%]="100" [style.max-height.%]="100" title="" alt="" />
-           </div>
+       <!--<div *ngIf="base64Image.indexOf('/pdf') == -1 ">-->
+
+        <div *ngFor="let i of img">
+            <div *ngIf="base64Image.indexOf(i.mimetype) != -1">
+                <div class="image-container">
+                    <img [src]="base64Image" 
+                         [style.max-width.%]="100" [style.max-height.%]="100" title="" alt="" />
+                </div>
+            </div>
        </div>
+
     </div>
     <mat-dialog-actions>
         <button mat-button mat-dialog-close>Fechar</button>
