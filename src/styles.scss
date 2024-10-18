@@ -1,4 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face { font-family: 'poppins-regular'; src: url(./assets//fonts/Poppins/Poppins-Regular.ttf); }
+@font-face { font-family: 'poppins-thin'; src: url(./assets/fonts/Poppins/Poppins-Thin.ttf); }
+@font-face { font-family: 'poppins-light'; src: url(./assets/fonts/Poppins/Poppins-Light.ttf) ;}
 
 /* Importing Bootstrap SCSS file. */
 @import "./node_modules/bootstrap/scss/bootstrap";
@@ -6,5 +8,11 @@
 /* Importing Datepicker SCSS file. */
 @import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body { 
+    height: 100%; 
+}
+body { 
+    margin: 0;
+    padding: 0;
+    background-color: #fff; 
+}

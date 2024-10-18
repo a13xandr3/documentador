@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-//import { PDFDocumentProxy, getDocument } from 'pdfjs-dist';
 @Component({
   selector: 'app-pdf-viewer',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -17,6 +16,7 @@ export class PdfViewerComponent implements OnInit {
   constructor(
       ) {
     this.b64 = this.base64Image;
+    console.log(this.b64);
   }
 
   ngOnInit(): void {

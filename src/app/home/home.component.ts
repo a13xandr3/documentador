@@ -86,40 +86,47 @@ export class HomeComponent implements OnInit {
     let retorno;
     if ( _item != null ) {
       if ( _item.indexOf('/jpg', 0) != -1 ) {
-        retorno = '../../assets/image.svg';
+        retorno = '../../assets/icons/image.svg';
       } 
       if ( _item.indexOf('/jpeg', 0) != -1 ) {
-        retorno = '../../assets/image.svg';
+        retorno = '../../assets/icons/image.svg';
       }
       if ( _item.indexOf('/png', 0) != -1 ) {
-        retorno = '../../assets/image.svg';
+        retorno = '../../assets/icons/image.svg';
       }
       if ( _item.indexOf('/pdf', 0) != -1 ) {
-        retorno = '../../assets/pdf.svg';
+        retorno = '../../assets/icons/pdf.svg';
       }
       if ( _item.indexOf('/svg', 0) != -1 ) {
-        retorno = '../../assets/image.svg';
+        retorno = '../../assets/icons/image.svg';
       }
       if ( _item.indexOf('/doc', 0) != -1 ) {
-        retorno = '../../assets/doc.svg';
+        retorno = '../../assets/icons/doc.svg';
       }
       if ( _item.indexOf('/docx', 0) != -1 ) {
-        retorno = '../../assets/doc.svg';
+        retorno = '../../assets/icons/doc.svg';
       }
       if ( _item.indexOf('/xls', 0) != -1 ) {
-        retorno = '../../assets/doc.svg';
+        retorno = '../../assets/icons/doc.svg';
       }
       if ( _item.indexOf('/xlsx', 0) != -1 ) {
-        retorno = '../../assets/doc.svg';
+        retorno = '../../assets/icons/doc.svg';
       }
       if ( _item.indexOf('/ppt', 0) != -1 ) {
-        retorno = '../../assets/doc.svg';
+        retorno = '../../assets/icons/doc.svg';
       }
       if ( _item.indexOf('/pptx', 0) != -1 ) {
-        retorno = '../../assets/doc.svg';
+        retorno = '../../assets/icons/doc.svg';
       }
+      if ( _item.indexOf('/htm', 0) != -1 ) {
+        retorno = '../../assets/icons/doc.svg';
+      }
+      if ( _item.indexOf('/html', 0) != -1 ) {
+        retorno = '../../assets/icons/doc.svg';
+      }
+
     } else {
-      retorno = '../../assets/no-image.svg';
+      retorno = '../../assets/icons/no-image.svg';
     }
     return retorno;
   }

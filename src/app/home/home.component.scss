@@ -1,17 +1,25 @@
-.h {
-    height: calc( 100vh - 10vh - 5vh );
+* {
+    font-family: 'poppins-regular';
+    font-size: 0.7rem;
 }
-
+.h {
+    height: calc( 100vh - 20vh - 5vh );
+}
 .ico {
     width: 1.5rem;
     height: 1.5rem;
     cursor: pointer;
 }
-
 button {
     padding: 0px !important;
     margin: 0 !important;
     width: 1.5rem !important;
     height: 1.5rem !important;
     border: 0 !important;
+}
+.linha:nth-child(even) {
+    background-color: #D8DEE8;
+}
+.linha:nth-child(odd) {
+    background-color: #fff;
 }

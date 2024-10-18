@@ -1,3 +1,10 @@
-header {
-   height: 10vh; 
+header, .linha {
+   height: 20vh; 
+}
+
+.title {
+   font-family: 'poppins-thin';
+   font-size: 3rem;
+   color: #000;
+   text-shadow: 3px 5px 2px #474747;
 }
