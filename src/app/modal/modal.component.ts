@@ -28,7 +28,9 @@ export class ModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Model
   ) {
     this.options = this.data;
+    //console.log('options', this.options);
     this.base64Image = this.options[0].arquivo;
+    //console.log('base64-Arquivo', this.base64Image);
     if (this.options[0].state === 'inclusao' || this.options[0].state === 'edit' ) {
       this.form = this.fb.group({
         _id: [this.options[0]._id],
@@ -44,11 +46,9 @@ export class ModalComponent implements OnInit {
     }
   }
   ngOnInit() {
-    console.log('extensions==>', this.ext);
-    console.log('imagens', this.img);
-    console.log('doc==>', this.doc);
     if ( this.options[0].state === 'viewImage') {
-      this.loadImage(this.base64Image);
+      //chama serviço passando o id do item para recuperar o base64
+      this.buscaBase64(this.base64Image);
     }
   }
   onNoClick(): void {
@@ -72,6 +72,18 @@ export class ModalComponent implements OnInit {
     } else {
       console.log('Formulário inválido');
     }
+  }
+  //Busca base64 por meio do ID
+  private buscaBase64(id: string): void {
+    this.service.getBase64(id).subscribe({
+      next: (response: any) => {
+        this.base64Image = response;
+        this.loadImage(response);
+      },
+      error: (err: any) => {
+        console.log(err);
+      }
+    });
   }
   //Adiciona item ao DB
   private addItem(body: Model): void {

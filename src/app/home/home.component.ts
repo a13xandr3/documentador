@@ -10,14 +10,11 @@ import { Environment } from '../environment';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
   public dataSource: any[] = [];
   public modalConfig = Environment;
-  
   public width = this.modalConfig.Modal.width;
   public height = this.modalConfig.Modal.height;
   public extensions = this.modalConfig.Extensions;
-
   constructor(
     public dialog: MatDialog,
     private service: AppService) {
@@ -28,28 +25,38 @@ export class HomeComponent implements OnInit {
         }
       });
   }
-
   ngOnInit(): void {
-    console.log(this.extensions);
-      this.getItems();
+    this.getItems();
   }
-
   // Método para decodificar strings base64
   public decodeBase64(base64: string): string {
     return decodeURIComponent(escape(atob(base64)));
   }
-  
   public getItems(): void {
     this.service.getItems().subscribe({
-      next: (response: any[]) => {
-        this.dataSource = response;
+      next: (response: any) => {
+        for ( let i = 0 ; i < response.length ; i ++ ) {
+          this.dataSource.push({
+            _id: response[i]._id,
+            titulo: response[i].titulo,
+            descricao: response[i].descricao,
+            categoria: response[i].categoria,
+            tipo: response[i].tipo,
+            detalhe: response[i].detalhe,
+            valor: response[i].valor,
+            arquivo: response[i]._id,
+            extensao: response[i].extensao
+          });          
+        }
+      },
+      complete: () => {
+        //console.log(this.dataSource);
       },
       error: (err: any) => {
         console.log(err);
       }
     })
   }
-
   public openModalForm(item: Model, state: string): void {
     let itemArray = [];
     const x: Model = {
@@ -61,7 +68,8 @@ export class HomeComponent implements OnInit {
       detalhe: item.detalhe,
       valor: item.valor,
       arquivo: item.arquivo,
-      state: state
+      state: state,
+      extensao: item.extensao
     };
     itemArray.push(x);
     let dialogRef = this.dialog.open(ModalComponent, {
@@ -70,11 +78,9 @@ export class HomeComponent implements OnInit {
       data: itemArray
     });
   }
-
   trackByItemId(index: number, item: any): number {
     return item.id;
   }
-
   // Método para deletar um item
   public deleteItem(id: string): void {
     this.service.deleteItem(id).subscribe({
@@ -82,56 +88,31 @@ export class HomeComponent implements OnInit {
       error: (err) => console.error('Erro ao deletar item:', err)
     });
   }
- 
-  public showIcoView(item: any): any {
-    let _item = item.arquivo;
+   public showIcoView(item: any): any {
     let retorno;
-   
-    if ( _item != null ) {
-      if ( _item.indexOf('/jpg', 0) != -1 ) {
+    switch(item) {
+      case 'jpg': 
+      case 'jpeg':
+      case 'png':
+      case 'svg':
         retorno = '../../assets/icons/image.svg';
-      } 
-      if ( _item.indexOf('/jpeg', 0) != -1 ) {
-        retorno = '../../assets/icons/image.svg';
-      }
-      if ( _item.indexOf('/png', 0) != -1 ) {
-        retorno = '../../assets/icons/image.svg';
-      }
-      if ( _item.indexOf('/pdf', 0) != -1 ) {
+        break;
+      case 'pdf':
         retorno = '../../assets/icons/pdf.svg';
-      }
-      if ( _item.indexOf('/svg', 0) != -1 ) {
-        retorno = '../../assets/icons/image.svg';
-      }
-      if ( _item.indexOf('/doc', 0) != -1 ) {
+        break;
+      case 'doc':
+      case 'docx':
+      case 'xls':
+      case 'xlsx':
+      case 'ppt':
+      case 'pptx':
+      case 'htm':
+      case 'html':
         retorno = '../../assets/icons/doc.svg';
-      }
-      if ( _item.indexOf('/docx', 0) != -1 ) {
-        retorno = '../../assets/icons/doc.svg';
-      }
-      if ( _item.indexOf('/xls', 0) != -1 ) {
-        retorno = '../../assets/icons/doc.svg';
-      }
-      if ( _item.indexOf('/xlsx', 0) != -1 ) {
-        retorno = '../../assets/icons/doc.svg';
-      }
-      if ( _item.indexOf('/ppt', 0) != -1 ) {
-        retorno = '../../assets/icons/doc.svg';
-      }
-      if ( _item.indexOf('/pptx', 0) != -1 ) {
-        retorno = '../../assets/icons/doc.svg';
-      }
-      if ( _item.indexOf('/htm', 0) != -1 ) {
-        retorno = '../../assets/icons/doc.svg';
-      }
-      if ( _item.indexOf('/html', 0) != -1 ) {
-        retorno = '../../assets/icons/doc.svg';
-      }
-
-    } else {
-      retorno = '../../assets/icons/no-image.svg';
+        break;
+      default:
+        retorno = '../../assets/icons/no-image.svg';
     }
     return retorno;
   }
-
 }

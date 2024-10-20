@@ -8,4 +8,5 @@ export interface Model {
     valor: number;
     arquivo: string;
     state: string;
+    extensao: string;
 }

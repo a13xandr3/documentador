@@ -49,7 +49,8 @@ export class HeaderComponent implements OnInit {
       detalhe: '',
       valor: 0,
       arquivo: '',
-      state: 'inclusao'
+      state: 'inclusao',
+      extensao: ''
     };
     xp.push(x);
     let dialogRef = this.dialog.open(ModalComponent, {

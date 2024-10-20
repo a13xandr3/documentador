@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+//import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-pdf-viewer',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -13,20 +13,15 @@ export class PdfViewerComponent implements OnInit {
   public aspectRatio: number = 1;
   public b64!: string;
 
-  constructor(
-      ) {
+  constructor() {
     this.b64 = this.base64Image;
-    console.log(this.b64);
   }
-
   ngOnInit(): void {
   }
-
   public document(b64: any): any {
     const blob = this.convertBase64ToBlob(b64);
     return URL.createObjectURL(blob);
   }
-    
   /**
   * Convert BASE64 to BLOB
   * @param base64Image Pass Base64 image data to convert into the BLOB

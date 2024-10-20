@@ -6,13 +6,19 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AppService {
 
-  private readonly url = 'http://localhost:3000/items'; // URL mais específica
+  private readonly url = 'http://localhost:3000/items';
+  private readonly urlB64 = 'http://localhost:3000/base64';
 
   private dataUpdatedSource = new BehaviorSubject<boolean>(false);
   
   dataUpdated$ = this.dataUpdatedSource.asObservable();
 
   constructor(private http: HttpClient) { }
+
+  //Método para buscar pelo id o base64 para transformar e exibir em tela a imagem ou doc
+  public getBase64(id: string): Observable<any> {
+    return this.http.get(`${this.urlB64}/${id}`);
+  }
 
   // Método para obter todos os itens
   public getItems(): Observable<any> {

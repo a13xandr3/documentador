@@ -9,11 +9,11 @@
         <div class="col-2"><strong>Ações</strong></div>
     </div>
     <div class="row py-2 border-bottom linha" *ngFor="let item of dataSource; let i = index; trackBy: trackByItemId" >
-            <div class="col-1" >{{ item.titulo.length < 10 ? item.titulo.substring(0,10) : item.titulo.substring(0,10) + '...' }}</div>
-            <div class="col-3">{{ item.descricao.length < 40 ? item.descricao.substring(0,40) : item.descricao.substring(0,40) + '...' }}</div>
-            <div class="col-1">{{ item.categoria.length < 20 ? item.categoria.substring(0,20) : item.categoria.substring(0,20) + '...' }}</div>
+            <div class="col-1" >{{ item.titulo?.length < 10 ? item.titulo.substring(0,10) : item.titulo.substring(0,10) + '...' }}</div>
+            <div class="col-3">{{ item.descricao?.length < 40 ? item.descricao.substring(0,40) : item.descricao.substring(0,40) + '...' }}</div>
+            <div class="col-1">{{ item.categoria?.length < 20 ? item.categoria.substring(0,20) : item.categoria.substring(0,20) + '...' }}</div>
             <div class="col-1">{{ item.tipo }}</div>
-            <div class="col-3">{{ item.detalhe.length < 50 ? item.detalhe.substring(0,50) : item.detalhe.substring(0,50) + '...' }}</div>
+            <div class="col-3">{{ item.detalhe?.length < 50 ? item.detalhe.substring(0,50) : item.detalhe.substring(0,50) + '...' }}</div>
             <div class="col-1">{{ item.valor }}</div>
             <div class="col-2 d-flex gap-4 justify-content-end align-items-center">
                 <!-- view dados -->
@@ -24,10 +24,10 @@
                      alt="view Image"
                      >
                 <!-- botão view image ou doc-->
-                <img [src]="showIcoView(item)"
+                <img [src]="showIcoView(item.extensao)"
                     class="ico" 
                     title="image" 
-                    (click)="item.arquivo !== null ? openModalForm(item, 'viewImage') : ''"
+                    (click)="item.extensao?.length > 0 ? openModalForm(item, 'viewImage') : ''"
                     alt="view Image"
                     >
                 <!-- botão Edit -->
@@ -41,10 +41,11 @@
                      class="ico" 
                      (click)="deleteItem(item._id)"
                      alt="delete"
-                     >               
+                     > 
             </div>
     </div>
 </div>
+
 <ng-template #vazio class="" >
     <div class="container h">
         <div class="d-flex row">
