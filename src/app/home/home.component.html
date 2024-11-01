@@ -1,3 +1,4 @@
+
 <div class="container h grid" *ngIf="dataSource!.length > 0; else vazio">
     <div class="row py-2 bgHeader border-bottom">
         <div class="col-1"><strong>Título</strong></div>
@@ -16,27 +17,23 @@
             <div class="col-3">{{ item.detalhe?.length < 50 ? item.detalhe.substring(0,50) : item.detalhe.substring(0,50) + '...' }}</div>
             <div class="col-1">{{ item.valor }}</div>
             <div class="col-2 d-flex gap-4 justify-content-end align-items-center">
-                <!-- view dados -->
                 <img src="../../assets/icons/view.svg"
                      class="ico" 
                      title="image" 
                      (click)="openModalForm(item, 'view')"
                      alt="view Image"
                      >
-                <!-- botão view image ou doc-->
                 <img [src]="showIcoView(item.extensao)"
                     class="ico" 
                     title="image" 
                     (click)="item.extensao?.length > 0 ? openModalForm(item, 'viewImage') : ''"
                     alt="view Image"
                     >
-                <!-- botão Edit -->
                 <img src="../../assets/icons/edit.svg" 
                     class="ico"
                     alt="edit"
                     (click)="openModalForm(item, 'edit')"
                     >
-                <!-- botão Delete -->
                 <img src="../../assets/icons/delete.svg"
                      class="ico" 
                      (click)="deleteItem(item._id)"
@@ -55,3 +52,7 @@
         </div>
     </div>
 </ng-template>
+
+<!--
+<app-paginador [data]="dataSource"></app-paginador>
+-->

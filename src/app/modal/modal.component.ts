@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -14,6 +14,7 @@ export class ModalComponent implements OnInit {
   public modalConfig = Environment;
   public arquivoBase64: string | null = null;
   public options: any = [];
+  public arr: Model[] = [];
   public form!: FormGroup;
   public aspectRatio: number = 1;
   public extensions = this.modalConfig.Extensions;
@@ -21,6 +22,7 @@ export class ModalComponent implements OnInit {
   public img = this.extensions.filter(m => m.type === 'img');
   public doc = this.extensions.filter(m => m.type === 'doc');
   public base64Image: string;
+  //new: any;
   constructor(
     private service: AppService,
     private fb: FormBuilder,
@@ -28,9 +30,21 @@ export class ModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Model
   ) {
     this.options = this.data;
-    //console.log('options', this.options);
+    this.arr = [
+     {
+      _id: this.options[0]._id,
+      titulo: this.options[0].tipo,
+      descricao: this.options[0].descricao,
+      categoria: this.options[0].categoria,
+      tipo: this.options[0].tipo,
+      detalhe: this.options[0].detalhe.replace(/\n/g, '<br />'),
+      valor: this.options[0].valor,
+      arquivo: this.options[0].arquivo,
+      state: this.options[0].state,
+      extensao: this.options[0].extensao 
+     }
+    ]
     this.base64Image = this.options[0].arquivo;
-    //console.log('base64-Arquivo', this.base64Image);
     if (this.options[0].state === 'inclusao' || this.options[0].state === 'edit' ) {
       this.form = this.fb.group({
         _id: [this.options[0]._id],

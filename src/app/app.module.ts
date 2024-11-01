@@ -15,6 +15,8 @@ import { HomeComponent } from './home/home.component';
 import { ModalComponent } from './modal/modal.component';
 import { PdfViewerComponent } from './pdf-viewer/pdf-viewer.component';
 import { SafePipe } from './safe.pipe';
+import { PaginadorComponent } from './paginador/paginador.component';
+import { MaterialModule } from './material/material.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +25,8 @@ import { SafePipe } from './safe.pipe';
     HomeComponent,
     ModalComponent,
     PdfViewerComponent,
-    SafePipe
+    SafePipe,
+    PaginadorComponent
   ],
   imports: [
     BrowserModule,
@@ -32,7 +35,8 @@ import { SafePipe } from './safe.pipe';
     MatDialogModule,
     MatButtonModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialModule
   ],
   providers: [ {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true }}, HomeComponent ],
   entryComponents: [ MatDialogModule ],
