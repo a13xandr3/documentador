@@ -57,8 +57,8 @@ export class HomeComponent implements OnInit {
     });          
   }
 
-  public getItemsSearched(key: string): void {
-    this.service.getKeyWord(key).subscribe({
+  public getDetalhe(key: string): void {
+    this.service.getDetalhe(key).subscribe({
       next: (response: any) => {
         for ( let i = 0 ; i < response.length ; i ++ ) {
           this.datasourcePush(response, i);
@@ -71,7 +71,6 @@ export class HomeComponent implements OnInit {
       }
     })
   }
-  
 
   public getItems(): void {
     this.service.getItems().subscribe({

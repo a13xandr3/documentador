@@ -8,7 +8,7 @@ export class AppService {
 
   private readonly url = 'http://localhost:3000/items';
   private readonly urlB64 = 'http://localhost:3000/base64';
-  private readonly urlSearch = 'http://localhost:3000/search';
+  private readonly urlSearch = 'http://localhost:3000/detalhe';
   private readonly urlCategoria = 'http://localhost:3000/categoria';
 
   private dataUpdatedSource = new BehaviorSubject<boolean>(false);
@@ -23,7 +23,7 @@ export class AppService {
   constructor(private http: HttpClient) { }
 
   //método para buscar uma palavra chave para filtrar a lista de items
-  public getKeyWord(key: string): Observable<any> {
+  public getDetalhe(key: string): Observable<any> {
     return this.http.get(`${this.urlSearch}/${key}`);
   }
 

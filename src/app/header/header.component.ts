@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
 import { ModalComponent } from '../modal/modal.component';
@@ -19,39 +19,45 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   public height = this.modalConfig.Modal.height;
   public datasourceCategoria: any[] = [{}]; 
 
+  /*
   fr = new FormGroup({
-    titulo: new FormControl([''])
+    categoria: new FormControl(['']),
+    descricao: new FormControl([''])
   });
+  */
+
+  fr: FormGroup;
 
   constructor(
     public dialog: MatDialog,
     private service: AppService,
-    private messageService: AppService,
-    private home: HomeComponent
-    ) {
-      this.dropdownCategoria();
-    }
+    private home: HomeComponent,
+    private fb: FormBuilder
+  ) {
 
-  ngOnInit(): void {
+    this.fr = this.fb.group({
+      categoria: [''],
+      detalhe: [''],
+    });
 
-    /*
-    let jsonArrayObject=[];
-    let demo={};
-    demo={
-        id:1,
-        "name":"John Doe"
-    }
-    jsonArrayObject.push(demo);
-    */
+    this.dropdownCategoria();
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
+    //this.datasourceCategoria[0];
     //console.log(this.datasourceCategoria);
   }
 
+  ngAfterViewInit(): void {
+    console.log('after',this.datasourceCategoria[0]);
+  }
+
+
+  /*
   enviarParaFilho() {
     this.service.setParametro('Valor enviado do pai');
   }
+  */
 
   public openDialog(): void {
     let xp = [];
@@ -73,7 +79,18 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       width: this.width,
       data: xp
     });
+  }
 
+  detalheChanged(item: any): void {
+    this.service.getDetalhe(item).subscribe({
+      next: (response: any) => {
+        this.home.ngOnInit();
+        this.service.setParametro(response);
+      },
+      error: (err: any) => {
+        console.log(err);
+      }
+    })
   }
 
   public dropdownCategoria() {
@@ -83,6 +100,11 @@ export class HeaderComponent implements OnInit, AfterViewInit {
           return { categoria: r }
         });
         this.datasourceCategoria = arrayCategoria;
+      },
+      complete: () => {
+        console.log('=>', this.datasourceCategoria[0]);
+        const categoria = this.datasourceCategoria[0];
+        this.service.setParametro(categoria);
       },
       error: (err: any) => {
         console.log(err);
