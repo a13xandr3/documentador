@@ -5,7 +5,21 @@
                 <div class="title">Knowledge Base - KB</div>
             </div>
             <div class="col-6 d-flex justify-content-end">
+
+                <div class="d-flex gap-2">
+
+                    <select class="form-select" 
+                            aria-label="Default select example"
+                            (change)="dropdownCategoriaSelected($any($event.target).value)">
+                        <option *ngFor="let i of datasourceCategoria; let x = index" 
+                                [value]="i.categoria">{{ i.categoria }}
+                        </option>
+                    </select>
+                    
+                </div>
+
                 <div><button class="btn btn-primary d-flex justify-content-end" (click)="openDialog()">Incluir</button></div>
+
             </div>
         </div>
     </div>

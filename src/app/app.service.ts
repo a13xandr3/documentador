@@ -8,12 +8,34 @@ export class AppService {
 
   private readonly url = 'http://localhost:3000/items';
   private readonly urlB64 = 'http://localhost:3000/base64';
+  private readonly urlSearch = 'http://localhost:3000/search';
+  private readonly urlCategoria = 'http://localhost:3000/categoria';
 
   private dataUpdatedSource = new BehaviorSubject<boolean>(false);
-  
   dataUpdated$ = this.dataUpdatedSource.asObservable();
 
+  private parametroSource = new BehaviorSubject<any>(''); // Valor inicial
+  parametro$ = this.parametroSource.asObservable();
+
+  setParametro(valor: any) {
+    this.parametroSource.next(valor);
+  }
   constructor(private http: HttpClient) { }
+
+  //método para buscar uma palavra chave para filtrar a lista de items
+  public getKeyWord(key: string): Observable<any> {
+    return this.http.get(`${this.urlSearch}/${key}`);
+  }
+
+  //Método para buscar apenas as categorias
+  public getCategoria(): Observable<any> {
+    return this.http.get(`${this.urlCategoria}`);
+  }
+
+  //Método para buscar categoria selecionada no dropdown
+  public getDropdownCategoria(key: string): Observable<any> {
+    return this.http.get(`${this.urlCategoria}/${key}`);
+  }
 
   //Método para buscar pelo id o base64 para transformar e exibir em tela a imagem ou doc
   public getBase64(id: string): Observable<any> {

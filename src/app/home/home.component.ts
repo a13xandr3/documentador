@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AppService } from '../app.service';
 import { Model } from '../app.model';
 import { ModalComponent } from '../modal/modal.component';
@@ -10,11 +10,14 @@ import { Environment } from '../environment';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  
   public dataSource: any[] = [];
+
   public modalConfig = Environment;
   public width = this.modalConfig.Modal.width;
   public height = this.modalConfig.Modal.height;
   public extensions = this.modalConfig.Extensions;
+
   constructor(
     public dialog: MatDialog,
     private service: AppService) {
@@ -24,33 +27,60 @@ export class HomeComponent implements OnInit {
           this.getItems();
         }
       });
+      this.service.parametro$.subscribe((response) => {
+        if ( response ) {
+          this.dataSource = [];
+          this.dataSource = response;
+        }
+      }); 
   }
+
   ngOnInit(): void {
-    this.getItems();
   }
+
   // Método para decodificar strings base64
   public decodeBase64(base64: string): string {
     return decodeURIComponent(escape(atob(base64)));
   }
+
+  private datasourcePush(response: any, i: number) {
+    return this.dataSource.push({
+      _id: response[i]._id,
+      titulo: response[i].titulo,
+      descricao: response[i].descricao,
+      categoria: response[i].categoria,
+      tipo: response[i].tipo,
+      detalhe: response[i].detalhe,
+      valor: response[i].valor,
+      arquivo: response[i]._id,
+      extensao: response[i].extensao
+    });          
+  }
+
+  public getItemsSearched(key: string): void {
+    this.service.getKeyWord(key).subscribe({
+      next: (response: any) => {
+        for ( let i = 0 ; i < response.length ; i ++ ) {
+          this.datasourcePush(response, i);
+        }
+      },
+      complete: () => {
+      },
+      error: (err: any) => {
+        console.log(err);
+      }
+    })
+  }
+  
+
   public getItems(): void {
     this.service.getItems().subscribe({
       next: (response: any) => {
         for ( let i = 0 ; i < response.length ; i ++ ) {
-          this.dataSource.push({
-            _id: response[i]._id,
-            titulo: response[i].titulo,
-            descricao: response[i].descricao,
-            categoria: response[i].categoria,
-            tipo: response[i].tipo,
-            detalhe: response[i].detalhe,
-            valor: response[i].valor,
-            arquivo: response[i]._id,
-            extensao: response[i].extensao
-          });          
+          this.datasourcePush(response, i);
         }
       },
       complete: () => {
-        //console.log(this.dataSource);
       },
       error: (err: any) => {
         console.log(err);
