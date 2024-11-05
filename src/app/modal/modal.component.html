@@ -4,9 +4,14 @@
             [innerHTML]="this.arr[0].state === 'inclusao' ? 'Cadastro' : 'Alteração'"></h1>
         <mat-dialog-content>
             <div class="row">
+                <!-- id -->
+                <div class="col-4 py-2">
+                    <label for="id" class="label">ID:</label>
+                    <input id="id" class="form-control" formControlName="_id" readonly />
+                </div>
+
                 <!-- titulo -->
                 <div class="col-4 py-2">
-                    <input type="hidden" id="id" formControlName="_id" />
                     <label for="titulo" class="label">Titulo:</label>
                     <input id="titulo" class="form-control" formControlName="titulo"   />
                     <div *ngIf="form.get('titulo')?.invalid && form.get('titulo')?.touched">
@@ -78,6 +83,10 @@
     <div *ngFor="let i of arr">
         <div mat-dialog-content>
             <div class="row py-3">
+                <div class="col-4 py-3">
+                    <label for="titulo" class="label">ID</label>
+                    <div [innerHTML]="i._id"></div>
+                </div>
                 <div class="col-4 py-3">
                     <label for="titulo" class="label">Titulo</label>
                     <div [innerHTML]="i.titulo"></div>

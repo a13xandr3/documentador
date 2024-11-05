@@ -18,13 +18,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   public width = this.modalConfig.Modal.width;
   public height = this.modalConfig.Modal.height;
   public datasourceCategoria: any[] = [{}]; 
-
-  /*
-  fr = new FormGroup({
-    categoria: new FormControl(['']),
-    descricao: new FormControl([''])
-  });
-  */
+  public dataSource: any[] = [];
 
   fr: FormGroup;
 
@@ -49,9 +43,22 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log('after',this.datasourceCategoria[0]);
+    //console.log('after',this.datasourceCategoria[0]);
   }
 
+  private datasourcePush(response: any, i: number) {
+    return this.dataSource.push({
+      _id: response[i]._id,
+      titulo: response[i].titulo,
+      descricao: response[i].descricao,
+      categoria: response[i].categoria,
+      tipo: response[i].tipo,
+      detalhe: response[i].detalhe,
+      valor: response[i].valor,
+      arquivo: response[i]._id,
+      extensao: response[i].extensao
+    });          
+  }
 
   /*
   enviarParaFilho() {
@@ -102,9 +109,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         this.datasourceCategoria = arrayCategoria;
       },
       complete: () => {
-        console.log('=>', this.datasourceCategoria[0]);
-        const categoria = this.datasourceCategoria[0];
-        this.service.setParametro(categoria);
+        //console.log('=>', this.datasourceCategoria[0]);
+        //const categoria = this.datasourceCategoria[0];
+        //this.service.setParametro(categoria);
       },
       error: (err: any) => {
         console.log(err);
@@ -112,16 +119,24 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     })
   }
 
-  public dropdownCategoriaSelected(item: any) {
+  //**
+   /* 
+   * @param item - recebe parametro para pesquisar a categoria
+   *  
+   */
+  public dropdownCategoriaSelected(item: string) {
+    this.dataSource = [];
     this.service.getDropdownCategoria(item).subscribe({
       next: (response: any) => {
+        for ( let i = 0 ; i < response.length ; i ++ ) {
+          this.datasourcePush(response, i);
+        }
         this.home.ngOnInit();
-        this.service.setParametro(response);
+        this.service.setParametro(this.dataSource);
       },
       error: (err: any) => {
         console.log(err);
       }
-    })
-    
+    });
   }
 }

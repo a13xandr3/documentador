@@ -33,7 +33,7 @@ export class ModalComponent implements OnInit {
     this.arr = [
      {
       _id: this.options[0]._id,
-      titulo: this.options[0].tipo,
+      titulo: this.options[0].titulo,
       descricao: this.options[0].descricao,
       categoria: this.options[0].categoria,
       tipo: this.options[0].tipo,
