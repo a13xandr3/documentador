@@ -13,39 +13,28 @@ import { HomeComponent } from '../home/home.component';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
-
+  fr: FormGroup;
   public modalConfig = Environment;
   public width = this.modalConfig.Modal.width;
   public height = this.modalConfig.Modal.height;
   public datasourceCategoria: any[] = [{}]; 
   public dataSource: any[] = [];
-
-  fr: FormGroup;
-
   constructor(
     public dialog: MatDialog,
     private service: AppService,
     private home: HomeComponent,
     private fb: FormBuilder
   ) {
-
     this.fr = this.fb.group({
       categoria: [''],
       detalhe: [''],
     });
-
     this.dropdownCategoria();
   }
-
   ngOnInit(): void {
-    //this.datasourceCategoria[0];
-    //console.log(this.datasourceCategoria);
   }
-
   ngAfterViewInit(): void {
-    //console.log('after',this.datasourceCategoria[0]);
   }
-
   private datasourcePush(response: any, i: number) {
     return this.dataSource.push({
       _id: response[i]._id,
@@ -55,17 +44,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       tipo: response[i].tipo,
       detalhe: response[i].detalhe,
       valor: response[i].valor,
-      arquivo: response[i]._id,
+      arquivo: response[i].arquivo,
       extensao: response[i].extensao
     });          
   }
-
-  /*
-  enviarParaFilho() {
-    this.service.setParametro('Valor enviado do pai');
-  }
-  */
-
   public openDialog(): void {
     let xp = [];
     const x: Model = {
@@ -87,7 +69,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       data: xp
     });
   }
-
   detalheChanged(item: any): void {
     this.service.getDetalhe(item).subscribe({
       next: (response: any) => {
@@ -99,7 +80,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       }
     })
   }
-
   public dropdownCategoria() {
     this.service.getCategoria().subscribe({
       next: (response: any) => {
@@ -109,16 +89,12 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         this.datasourceCategoria = arrayCategoria;
       },
       complete: () => {
-        //console.log('=>', this.datasourceCategoria[0]);
-        //const categoria = this.datasourceCategoria[0];
-        //this.service.setParametro(categoria);
       },
       error: (err: any) => {
         console.log(err);
       }
     })
   }
-
   //**
    /* 
    * @param item - recebe parametro para pesquisar a categoria

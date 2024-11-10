@@ -20,7 +20,8 @@
                         <select id="categoria" class="form-select" 
                                 aria-label="Default select example"
                                 (change)="dropdownCategoriaSelected($any($event.target).value)">
-                            <option *ngFor="let i of datasourceCategoria; let x = index" 
+                                <option value="-">selecione</option>
+                                <option *ngFor="let i of datasourceCategoria; let x = index" 
                                     [value]="i.categoria">{{ i.categoria }}
                             </option>
                         </select>

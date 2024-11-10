@@ -7,8 +7,11 @@ import { HttpClient } from '@angular/common/http';
 export class AppService {
 
   private readonly url = 'http://localhost:3000/items';
+  
   private readonly urlB64 = 'http://localhost:3000/base64';
+
   private readonly urlSearch = 'http://localhost:3000/detalhe';
+
   private readonly urlCategoria = 'http://localhost:3000/categoria';
 
   private dataUpdatedSource = new BehaviorSubject<boolean>(false);
@@ -26,44 +29,45 @@ export class AppService {
   public getDetalhe(key: string): Observable<any> {
     return this.http.get(`${this.urlSearch}/${key}`);
   }
-
   //Método para buscar apenas as categorias
   public getCategoria(): Observable<any> {
     return this.http.get(`${this.urlCategoria}`);
   }
-
   //Método para buscar categoria selecionada no dropdown
   public getDropdownCategoria(key: string): Observable<any> {
     return this.http.get(`${this.urlCategoria}/${key}`);
   }
 
-  //Método para buscar pelo id o base64 para transformar e exibir em tela a imagem ou doc
-  public getBase64(id: string): Observable<any> {
-    return this.http.get(`${this.urlB64}/${id}`);
+  //Busca item selecionado
+  public getItem(id: string): Observable<any> {
+    return this.http.get<any>(`${this.url}/${id}`);
+  }
+
+  //busca pelo id o arquivo sendo imagem ou documento
+  getArquivoBase64(id: string): Observable<{ arquivoBase64: string }> {
+    return this.http.get<{ arquivoBase64: string }>(`${this.urlB64}/${id}`);
   }
 
   // Método para obter todos os itens
+  /*
   public getItems(): Observable<any> {
     return this.http.get(this.url);
   }
-
+  */
   // Método para incluir um novo item
   public postItem(body: any): Observable<any> {
+    console.log(body);
     return this.http.post(this.url, body);
   }
-
   // Novo método para atualizar um item existente
   public updateItem(id: string, body: any): Observable<any> {
     return this.http.put(`${this.url}/${id}`, body);
   }
-
   // Método para deletar um item
   public deleteItem(id: string): Observable<any> {
     return this.http.delete(`${this.url}/${id}`);
   }
-
   notifyDataUpdated() {
     this.dataUpdatedSource.next(true);
   }
-
 }

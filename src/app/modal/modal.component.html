@@ -9,7 +9,6 @@
                     <label for="id" class="label">ID:</label>
                     <input id="id" class="form-control" formControlName="_id" readonly />
                 </div>
-
                 <!-- titulo -->
                 <div class="col-4 py-2">
                     <label for="titulo" class="label">Titulo:</label>
@@ -70,6 +69,15 @@
                            (change)="handleFileInput($any($event))" 
                            [accept]="ext" />
                 </div>
+                <!-- tipo de extensao da imagem -->
+                <div class="col-12 py-2">
+                    <label for="extensao" class="label">Extensao:</label>
+                    <input id="extensao"
+                           class="form-control w-100"
+                           type="text"
+                           formControlName="extensao"
+                           />
+                </div>
             </div>
         </mat-dialog-content>
         <mat-dialog-actions>
@@ -121,19 +129,51 @@
 <div *ngIf="this.arr[0].state === 'viewImage'">
     <h1 mat-dialog-title class="mat-dialog-title">Detalhe Imagem</h1>
     <div mat-dialog-content class="_boxImage d-flex w-100 h-100 " alt="xx">
-        <div *ngFor="let i of doc">
-            <div *ngIf="base64Image.indexOf(i.mimetype) != -1" class="d-flex w-100 h-100">
-                <app-pdf-viewer [base64Image]="this.base64Image"></app-pdf-viewer>
+
+        {{ this.arr[0].extensao }}
+
+        <div *ngIf="this.arr[0].extensao === 'image/png'">
+            <img [src]="'data:image/png;base64,'+this.xpto" alt="Imagem">
+        </div>
+
+        <div *ngIf="this.arr[0].extensao === 'image/jpeg'">
+            <img [src]="'data:image/jpeg;base64,'+this.xpto+'='" alt="Imagem">
+        </div>
+
+        <div *ngIf="this.arr[0].extensao == 'application/pdf'" class="d-flex w-100 h-100">
+
+            <app-pdf-viewer [base64]="base64"></app-pdf-viewer>
+            
+            <!--<app-pdf-viewer [childInput]="parentValue"></app-pdf-viewer>-->
+
+        </div>
+
+        <!--
+        <div >
+            <div class="image-container">
+                <img [src]="this.anexo" 
+                     [style.max-width.%]="100" 
+                     [style.max-height.%]="100" 
+                     title="" 
+                     alt="" />
             </div>
         </div>
+-->
+        <!--
         <div *ngFor="let i of img">
-            <div *ngIf="base64Image.indexOf(i.mimetype) != -1">
+            <div *ngIf="base64Image.arquivo.indexOf(i.mimetype) != -1">
                 <div class="image-container">
                     <img [src]="base64Image" 
-                         [style.max-width.%]="100" [style.max-height.%]="100" title="" alt="" />
+                         [style.max-width.%]="100" 
+                         [style.max-height.%]="100" 
+                         title="" 
+                         alt="" />
+
                 </div>
             </div>
        </div>
+       -->
+
     </div>
     <mat-dialog-actions>
         <button mat-button mat-dialog-close>Fechar</button>

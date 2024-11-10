@@ -10,21 +10,18 @@ import { Environment } from '../environment';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  
   public dataSource: any[] = [];
-
   public modalConfig = Environment;
   public width = this.modalConfig.Modal.width;
   public height = this.modalConfig.Modal.height;
   public extensions = this.modalConfig.Extensions;
-
   constructor(
     public dialog: MatDialog,
     private service: AppService) {
       this.service.dataUpdated$.subscribe((updated) => {
         if (updated) {
           this.dataSource = [];
-          this.getItems();
+          //this.getItems();
         }
       });
       this.service.parametro$.subscribe((response) => {
@@ -34,15 +31,12 @@ export class HomeComponent implements OnInit {
         }
       }); 
   }
-
   ngOnInit(): void {
   }
-
   // Método para decodificar strings base64
   public decodeBase64(base64: string): string {
     return decodeURIComponent(escape(atob(base64)));
   }
-
   private datasourcePush(response: any, i: number) {
     return this.dataSource.push({
       _id: response[i]._id,
@@ -56,7 +50,6 @@ export class HomeComponent implements OnInit {
       extensao: response[i].extensao
     });          
   }
-
   public getDetalhe(key: string): void {
     this.service.getDetalhe(key).subscribe({
       next: (response: any) => {
@@ -72,6 +65,7 @@ export class HomeComponent implements OnInit {
     })
   }
 
+  /*
   public getItems(): void {
     this.service.getItems().subscribe({
       next: (response: any) => {
@@ -86,6 +80,8 @@ export class HomeComponent implements OnInit {
       }
     })
   }
+  */
+
   public openModalForm(item: Model, state: string): void {
     let itemArray = [];
     const x: Model = {
@@ -113,13 +109,14 @@ export class HomeComponent implements OnInit {
   // Método para deletar um item
   public deleteItem(id: string): void {
     this.service.deleteItem(id).subscribe({
-      next: () => this.getItems(),
+      next: () => this.getDetalhe(id), //this.getItems(),
       error: (err) => console.error('Erro ao deletar item:', err)
     });
   }
    public showIcoView(item: any): any {
     let retorno;
-    switch(item) {
+    let _item = item.split('/')[1];
+    switch(_item) {
       case 'jpg': 
       case 'jpeg':
       case 'png':
