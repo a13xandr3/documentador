@@ -15,9 +15,11 @@ export class AppService {
   private readonly urlCategoria = 'http://localhost:3000/categoria';
 
   private dataUpdatedSource = new BehaviorSubject<boolean>(false);
+
   dataUpdated$ = this.dataUpdatedSource.asObservable();
 
   private parametroSource = new BehaviorSubject<any>(''); // Valor inicial
+  
   parametro$ = this.parametroSource.asObservable();
 
   setParametro(valor: any) {
@@ -67,7 +69,9 @@ export class AppService {
   public deleteItem(id: string): Observable<any> {
     return this.http.delete(`${this.url}/${id}`);
   }
+
   notifyDataUpdated() {
     this.dataUpdatedSource.next(true);
   }
+
 }

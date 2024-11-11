@@ -1,6 +1,6 @@
 export const Environment = {
     Modal: {
-            height: '900px',
+            height: '760px',
             width: '1200px'
     },
     Extensions: [

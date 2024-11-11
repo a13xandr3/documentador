@@ -4,6 +4,7 @@ import { Model } from '../app.model';
 import { ModalComponent } from '../modal/modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Environment } from '../environment';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -21,7 +22,6 @@ export class HomeComponent implements OnInit {
       this.service.dataUpdated$.subscribe((updated) => {
         if (updated) {
           this.dataSource = [];
-          //this.getItems();
         }
       });
       this.service.parametro$.subscribe((response) => {
@@ -109,11 +109,17 @@ export class HomeComponent implements OnInit {
   // Método para deletar um item
   public deleteItem(id: string): void {
     this.service.deleteItem(id).subscribe({
-      next: () => this.getDetalhe(id), //this.getItems(),
+      next: () => {
+        this.dataSource = [];
+        this.getDetalhe(id);
+      },
+      complete: () => {
+        this.service.notifyDataUpdated();
+      },
       error: (err) => console.error('Erro ao deletar item:', err)
     });
   }
-   public showIcoView(item: any): any {
+  public showIcoView(item: any): any {
     let retorno;
     let _item = item.split('/')[1];
     switch(_item) {
